@@ -1,3 +1,31 @@
+
+Skip to content
+Navigation Menu
+
+    ozXoz
+
+    gym-app
+
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+
+    Settings
+
+.github/workflows/ci.yml
+update ci.yml file #2
+
+Jobs
+
+Run details
+
+Workflow file for this run
+.github/workflows/ci.yml at 575c3c7
 name: API Test with Curl
 
 on:
@@ -19,6 +47,14 @@ jobs:
           - 27017:27017
         options: --health-cmd "mongo --eval 'db.runCommand({ ping: 1 })' --quiet" --health-interval 10s --health-timeout 5s --health-retries 5
 
+Check failure on line 20 in .github/workflows/ci.yml
+GitHub Actions / .github/workflows/ci.yml
+
+Invalid workflow file
+
+You have an error in your yaml syntax on line 20
+
+
     steps:
     - uses: actions/checkout@v3
 
@@ -32,17 +68,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install Flask Flask-PyMongo
         # Include other dependencies as needed
-
     - name: Start Flask server
       run: |
         export FLASK_APP=app.py
         flask run &
         sleep 5  # Wait for Flask to start
-
     - name: Test registration endpoint
       run: |
         curl --fail -X POST http://localhost:5000/api/auth/register -H "Content-Type: application/json" -d '{"name":"Test","last_name":"User","age":30,"phone":"1234567890","email":"testuser@example.com","password":"password123"}'
-
     - name: Test login endpoint
       run: |
         curl --fail -X POST http://localhost:5000/api/auth/login -H "Content-Type: application/json" -d '{"email":"testuser@example.com","password":"password123"}'
+update ci.yml file · ozXoz/gym-app@575c3c7 
