@@ -40,6 +40,10 @@ jobs:
         flask run &  # Start Flask in the background
         sleep 10  # Wait to ensure Flask starts
 
+    - name: Check Flask Health
+      run: |
+        curl --fail --show-error --verbose http://localhost:5000/health
+
     - name: Test registration endpoint
       run: |
         curl --fail --show-error --verbose \
