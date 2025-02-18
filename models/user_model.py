@@ -24,4 +24,5 @@ def create_user(data):
     }
     mongo.db.users.insert_one(user_doc)
     print("Inserted user with email:", data["email"])
+    print("")
     return user_doc
