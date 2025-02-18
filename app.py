@@ -3,9 +3,12 @@ from flask_jwt_extended import JWTManager
 from config.config import Config
 from models.user_model import mongo, bcrypt
 from routes.auth_routes import auth
+from flask_cors import CORS
+
 
 app = Flask(__name__)
 app.config.from_object(Config)
+CORS(app)  # Enable CORS globally
 
 print("--- APP STARTING ---")
 
@@ -24,6 +27,7 @@ except Exception as e:
 # JWT Setup
 jwt = JWTManager(app)
 
+cors = CORS(auth, resources={r"/api/auth/*": {"origins": "*"}})  # Replace '*' with more specific domains as needed
 # Register Blueprint
 app.register_blueprint(auth, url_prefix="/api/auth")
 
