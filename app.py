@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask,jsonify
 from flask_jwt_extended import JWTManager
 from config.config import Config
 from models.user_model import mongo, bcrypt
@@ -34,6 +34,10 @@ app.register_blueprint(auth, url_prefix="/api/auth")
 def index():
     print("GET / -> Returning Hello message")
     return "Hello! Simple Auth with Logging. Use /api/auth/register or /api/auth/login."
+
+@app.route("/health", methods=["GET"])
+def health():
+    return jsonify({"status": "up"}), 200
 
 if __name__ == "__main__":
     print("--- RUNNING FLASK ---")
