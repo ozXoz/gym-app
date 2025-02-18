@@ -12,17 +12,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      mongo:
-        image: mongo
-        ports:
-          - 27017:27017
-        options: >-
-          --health-cmd "mongo --eval 'db.runCommand({ ping: 1 })' --quiet"
-          --health-interval 10s
-          --health-timeout 10s
-          --health-retries 5
-
     steps:
     - uses: actions/checkout@v3
 
@@ -36,6 +25,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install Flask Flask-PyMongo
         # Include other dependencies as needed
+
+    - name: Set environment variables from secrets
+      run: |
+        echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> $GITHUB_ENV
+        echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" >> $GITHUB_ENV
 
     - name: Start Flask server
       env:
