@@ -27,8 +27,7 @@ except Exception as e:
 # JWT Setup
 jwt = JWTManager(app)
 
-cors = CORS(auth, resources={r"/api/auth/*": {"origins": "*"}})  # Replace '*' with more specific domains as needed
-# Register Blueprint
+CORS(app, resources={r"/api/*": {"origins": "*"}})  # This allows all domains for API routes during testing# Register Blueprint
 app.register_blueprint(auth, url_prefix="/api/auth")
 
 @app.route("/")
