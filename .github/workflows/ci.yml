@@ -20,7 +20,7 @@ jobs:
         options: >-
           --health-cmd "mongo --eval 'db.runCommand({ ping: 1 })' --quiet"
           --health-interval 10s
-          --health-timeout 5s
+          --health-timeout 10s  # Increased timeout for more robustness
           --health-retries 5
 
     steps:
@@ -40,13 +40,19 @@ jobs:
     - name: Start Flask server
       run: |
         export FLASK_APP=app.py
-        flask run &
-        sleep 5  # Wait for Flask to start
+        flask run --host=0.0.0.0 --port=5000 &  # Explicitly set host and port
+        sleep 10  # Increased sleep to ensure the server is fully started
 
     - name: Test registration endpoint
       run: |
-        curl --fail -X POST http://localhost:5000/api/auth/register -H "Content-Type: application/json" -d '{"name":"Test","last_name":"User","age":30,"phone":"1234567890","email":"testuser@example.com","password":"password123"}'
+        curl --fail --show-error --verbose \
+        -X POST http://localhost:5000/api/auth/register \
+        -H "Content-Type: application/json" \
+        -d '{"name":"Test","last_name":"User","age":30,"phone":"1234567890","email":"testuser@example.com","password":"password123"}'
 
     - name: Test login endpoint
       run: |
-        curl --fail -X POST http://localhost:5000/api/auth/login -H "Content-Type: application/json" -d '{"email":"testuser@example.com","password":"password123"}'
+        curl --fail --show-error --verbose \
+        -X POST http://localhost:5000/api/auth/login \
+        -H "Content-Type: application/json" \
+        -d '{"email":"testuser@example.com","password":"password123"}'
