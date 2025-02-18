@@ -20,7 +20,7 @@ jobs:
         options: >-
           --health-cmd "mongo --eval 'db.runCommand({ ping: 1 })' --quiet"
           --health-interval 10s
-          --health-timeout 10s  # Increased timeout for more robustness
+          --health-timeout 10s
           --health-retries 5
 
     steps:
@@ -38,10 +38,13 @@ jobs:
         # Include other dependencies as needed
 
     - name: Start Flask server
+      env:
+        FLASK_APP: app.py
+        FLASK_RUN_HOST: 0.0.0.0
+        FLASK_RUN_PORT: 5000
       run: |
-        export FLASK_APP=app.py
-        flask run --host=0.0.0.0 --port=5000 &  # Explicitly set host and port
-        sleep 10  # Increased sleep to ensure the server is fully started
+        flask run &  # Start Flask in the background
+        sleep 10  # Wait to ensure Flask starts
 
     - name: Test registration endpoint
       run: |
