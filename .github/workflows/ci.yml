@@ -42,13 +42,13 @@ jobs:
     - name: Test registration endpoint
       run: |
         curl --fail --show-error --verbose \
-        -X POST https://gym-two-omega.vercel.app/api/auth/register \
+        -X POST http://127.0.0.1:5000/api/auth/register \
         -H "Content-Type: application/json" \
         -d '{"name":"Test","last_name":"User","age":30,"phone":"1234567890","email":"testuser@example.com","password":"password123"}'
 
     - name: Test login endpoint
       run: |
         curl --fail --show-error --verbose \
-        -X POST https://gym-two-omega.vercel.app/api/auth/login \
+        -X POST http://127.0.0.1:5000/api/auth/login \
         -H "Content-Type: application/json" \
         -d '{"email":"testuser@example.com","password":"password123"}'
